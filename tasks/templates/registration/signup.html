@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .signup-container {
+            width: 350px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #ff6f91;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #ff6f91;
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 111, 145, 0.5);
+        }
+        button {
+            background-color: #ff6f91;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background-color: #ff517a;
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(1);
+        }
+        p {
+            margin-top: 15px;
+            text-align: center;
+        }
+        p a {
+            color: #ff6f91;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Create Your Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+    </div>
+</body>
+</html>

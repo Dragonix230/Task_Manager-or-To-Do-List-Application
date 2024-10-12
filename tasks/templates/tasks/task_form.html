@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create/Update Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        form {
+            max-width: 500px;
+            width: 100%;
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        form input:focus, form textarea:focus {
+            border-color: #5cb85c;
+            outline: none;
+            box-shadow: 0 0 8px rgba(92, 184, 92, 0.3);
+        }
+
+        button {
+            width: 100%;
+            background-color: #5cb85c;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+            transform: scale(1.05);
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: -10px;
+            text-align: center;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Create/Update Task</h1>
+        <form method="POST" id="taskForm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <span class="error-message" id="errorMsg">Please fill in all fields before submitting.</span>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('taskForm').addEventListener('submit', function(event) {
+            let inputs = document.querySelectorAll('input, textarea');
+            let allFilled = true;
+
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    allFilled = false;
+                }
+            });
+
+            if (!allFilled) {
+                event.preventDefault();
+                document.getElementById('errorMsg').style.display = 'block';
+            } else {
+                document.getElementById('errorMsg').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

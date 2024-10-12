@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Tasks</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .task-completed {
+            text-decoration: line-through;
+            color: grey;
+        }
+
+        .logout-btn {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #ff6f91;
+            color: white;
+            border-radius: 5px;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn a:hover {
+            background-color: #ff517a;
+        }
+
+        a, button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #5cb85c;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        a:hover, button:hover {
+            background-color: #4cae4c;
+            transform: scale(1.05);
+        }
+
+        a.delete-task {
+            background-color: #d9534f;
+        }
+
+        a.delete-task:hover {
+            background-color: #c9302c;
+        }
+
+        form {
+            display: inline;
+        }
+
+        .create-task-link {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+            text-decoration: none;
+            background-color: #0275d8;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-task-link:hover {
+            background-color: #025aa5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logout-btn">
+        <a href="{% url 'profile' %}">Go to Profile</a>
+        <a href="{% url 'login' %}">Logout</a>
+    </div>
+
+    <h1>Your Tasks</h1>
+    
+    <a class="create-task-link" href="{% url 'task-create' %}">Create a new task</a>
+
+    <ul>
+        {% for task in tasks %}
+            <li class="{% if task.completed %}task-completed{% endif %}">
+                <span>{{ task.name }} - {{ task.due_date }}</span>
+                <div>
+                    <a href="{% url 'task-update' task.pk %}">Edit</a>
+                    <form method="POST" action="{% url 'task-delete' task.pk %}">
+                        {% csrf_token %}
+                        <button class="delete-task" type="submit">Delete</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
